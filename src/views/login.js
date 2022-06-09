@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import baseUrl from '../baseUrl';
 
 //to have access to the context API
 import { useContext } from "react";
@@ -25,7 +26,7 @@ export const Login = () => {
             password: password
         }
         //handling post request with axios, to submit the data  from the form to the database  the  api **** your pass data (i.e details from the form) as the second arguement which is the req.body in backend api
-        axios.post("http://localhost:3001/auth/login", data).then((response) => {
+        axios.post(`${baseUrl}/auth/login`, data).then((response) => {
 
             //if there is an error in login from response {i.e if there is a value for error sent from backend response}, then alert the error
             if (response.data.error) {

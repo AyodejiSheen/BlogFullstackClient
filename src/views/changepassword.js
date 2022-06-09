@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import baseUrl from '../baseUrl';
 
 function Changepassword() {
 
@@ -11,7 +12,7 @@ function Changepassword() {
 
 
     const Changepassword = () => {
-        axios.put("http://localhost:3001/auth/changepassword", {oldPassword, newPassword},
+        axios.put(`${baseUrl}/auth/changepassword`, {oldPassword, newPassword},
             {headers:{ accessToken: localStorage.getItem("JWT") } }
         ).then((response) => {
             if(response.data.error){

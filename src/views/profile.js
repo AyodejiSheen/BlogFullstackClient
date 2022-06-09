@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import baseUrl from '../baseUrl';
 
 
 
@@ -19,7 +20,7 @@ export const ProfilePage = () => {
             navigate('/')
 
         } else {
-            axios.get(`http://localhost:3001/auth/profile/${username}`,
+            axios.get(`${baseUrl}/auth/profile/${username}`,
                 { headers: { accessToken: localStorage.getItem("JWT") } }
             ).then((response) => {
                 setUserProfile(response.data)
@@ -28,7 +29,7 @@ export const ProfilePage = () => {
             });
 
 
-            axios.get(`http://localhost:3001/posts/profile/${username}`,
+            axios.get(`${baseUrl}/posts/profile/${username}`,
                 { headers: { accessToken: localStorage.getItem("JWT") } }
             ).then((response) => {
                 setUserPost(response.data)

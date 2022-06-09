@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import baseUrl from '../baseUrl';
 
 function Forgotpassword() {
 
@@ -9,7 +10,7 @@ function Forgotpassword() {
 
 
     const Forgotpassword = () => {
-        axios.post("http://localhost:3001/auth/resetpassword", {email}
+        axios.post(`${baseUrl}/auth/resetpassword`, {email}
         ).then((response) => {
             setMsg(response.data)
         }).catch((err) => {

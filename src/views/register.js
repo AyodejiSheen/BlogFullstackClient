@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";   //to make use of f
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import baseUrl from '../baseUrl';
 
 
 
@@ -40,7 +41,7 @@ export const Register = () => {
             alert("password doesn't match")
         } else {
             //handling post request with axios, to submit the data  from the form to the database  the  api **** your pass data (i.e details from the form) as the second arguement which is the req.body in backend api
-            axios.post("http://localhost:3001/auth", data).then((response) => {
+            axios.post(`${baseUrl}/auth`, data).then((response) => {
                 console.log(response.data)  // just to check if it works
 
                 if(response.data.error){

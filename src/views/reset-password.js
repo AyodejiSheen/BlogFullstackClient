@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import baseUrl from '../baseUrl';
 
 function Resetpassword() {
 
@@ -15,7 +16,7 @@ function Resetpassword() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/auth/reset-password/${id}/${token}`).then((response) => {
+        axios.get(`${baseUrl}/auth/reset-password/${id}/${token}`).then((response) => {
 
             if (response.data.error) {
                 alert(response.data.error);
@@ -28,7 +29,7 @@ function Resetpassword() {
 
     const resetpassword = () => {
         console.log(newPassword);
-        axios.put("http://localhost:3001/auth/reset-password", { newPassword, id },).then((response) => {
+        axios.put(`${baseUrl}/auth/reset-password`, { newPassword, id },).then((response) => {
             console.log(response.data)
             navigate('/login')
         })

@@ -16,6 +16,9 @@ import Forgotpassword from './views/forgot password';
 import Resetpassword from './views/reset-password';
 
 
+//importing  baseUrl
+import baseurl from './baseUrl'
+
 
 
 function App() {
@@ -30,7 +33,7 @@ function App() {
     // console.log("am running")
     let token = localStorage.getItem('JWT')
     // console.log(token);
-    axios.get("http://localhost:3001/auth/auth", {
+    axios.get(`${baseurl}/auth/auth`, {
       headers: {
         accessToken: token,
       },
