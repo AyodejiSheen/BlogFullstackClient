@@ -45,7 +45,7 @@ export const CreatePost = () => {
         //formik send the inputs to the onsubmit function as data
         // console.log(data);
         //handling post request with axios, to submit the data  from the form to the database  the  api **** your pass data (i.e details from the form) as the second arguement which is the req.body in backend api
-      axios.post(`${baseUrl}/posts`, data, 
+      axios.post(`${baseUrl.baseUrl}/posts`, data, 
         {headers:{accessToken:localStorage.getItem("JWT")}} //so as to validate the request in backend
       ).then((response) => {
         // console.log(response.data)  // just to check if it works
