@@ -10,12 +10,11 @@ export const Navbar = () => {
     const navigate = useNavigate();
 
     let { user, setUser, authState, setAuthState } = useContext(AuthContext); // to access to the user, setAuthState, authState from the context API
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
 
     const Navbar = () => {
         setIsOpen(!isOpen)
-        console.log(isOpen)
     }
 
 
@@ -54,29 +53,32 @@ export const Navbar = () => {
                     <div className={`h-50 shadow-lg rounded-lg lg:shadow-none lg:bg-inherit py-4 px-6 bg-white text-right w-52 lg:w-full mt-8 lg:mt-0 transition duration-300 ease-in-out absolute lg:relative lg:translate-x-0 transform lg:space-y-0 space-y-4 lg:flex flex-wrap ${isOpen ? "translate-x-20" : "-translate-x-full"}`}>
 
                         <div>
-                            <Link to="/" className='hover:bg-slate-200 px-6 py-4'>Homepage</Link>
+                            <Link to="/" onClick={Navbar} className='hover:bg-slate-200 px-6 py-4'>Homepage</Link>
                         </div>
 
                         {!authState ? (  //if not logged in show the register and login button but if looged in show the logout button
                             <>
                                 <div>
-                                    <Link to="register" className='hover:bg-slate-200 px-6 py-4'> Register</Link>
+                                    <Link to="register" onClick={Navbar} className='hover:bg-slate-200 px-6 py-4'> Register</Link>
                                 </div>
 
                                 <div>
-                                    <Link to="login" className='hover:bg-slate-200 px-6 py-4'> Login</Link>
+                                    <Link to="login" onClick={Navbar} className='hover:bg-slate-200 px-6 py-4'> Login</Link>
                                 </div>
                             </>
                         ) : (
                             <>
                                 <div>
-                                    <Link to="createpost" className='hover:bg-slate-200 px-6 py-4'> Create post</Link>
+                                    <Link to="createpost" onClick={Navbar} className='hover:bg-slate-200 px-6 py-4'> Create post</Link>
                                 </div>
+
+                                
                                 <div>
-                                    <Link to={`profile/${user.username}`} className='hover:bg-slate-200 px-6 py-4'> View Profile</Link>
+                                    <Link to={`profile/${user.username}`} onClick={Navbar} className='hover:bg-slate-200 px-6 py-4'> View Profile</Link>
                                 </div>
-                                <div>
-                                    <Link to="login" className='bg-black text-white px-6 py-4' onClick={logout}> Logout</Link>
+
+                                <div className='px-6 py-3'>
+                                    <Link to="login" className='bg-black text-white px-6 py-2' onClick={logout}> Logout</Link>
                                 </div>
                             </>
                         )}

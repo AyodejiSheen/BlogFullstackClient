@@ -16,7 +16,7 @@ export const Login = () => {
 
     const navigate = useNavigate();
 
-    const {setAuthState, setUser} = useContext(AuthContext);  //to be able to set the value for AuthState  from the function setAuthState using the useContext passing Authcontext
+    const { setAuthState, setUser } = useContext(AuthContext);  //to be able to set the value for AuthState  from the function setAuthState using the useContext passing Authcontext
 
 
 
@@ -44,19 +44,26 @@ export const Login = () => {
         });
     }
 
+
+    const reset = () => {
+        navigate('/reset-password')
+    }
+
     return (
         <>
             <div className="shadow w-96 p-5 text-center mx-auto">
                 <p className="text-xl py-5 font-medium">Login</p>
 
-                <div>
+                <div className="">
                     <input type="text" placeholder="username" onChange={(e) => setUsername(e.target.value)} className="w-full h-12 px-3 py-2 my-1 rounded-lg border-0 shadow-sm focus:outline-none focus:border-indigo-700 bg-slate-100 text-base" />
                     <input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} className="w-full h-12 px-3 py-2 my-1 rounded-lg border-0 shadow-sm focus:outline-none focus:border-indigo-700 bg-slate-100 text-base" />
 
                     <button className="w-full px-3 py-4 bg-yellow-700 text-white font-medium mt-6 rounded-lg" onClick={login} disabled={username === "" || password === ""}>Login</button>
                 </div>
 
-                    <Link to="/reset-password" className="w-full px-3 py-4 bg-yellow-700 text-white font-medium mt-6 rounded-lg"  >Forgot Password</Link>
+                <div>
+                    <button onClick={reset} className="w-full px-3 py-4 bg-yellow-700 text-white font-medium mt-6 rounded-lg"  >Forgot Password</button>
+                </div>
             </div>
         </>
     )

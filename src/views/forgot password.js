@@ -7,14 +7,19 @@ function Forgotpassword() {
 
     const [email, setEMail] = useState('');
     const [msg, setMsg] = useState("");
+    const [check, setCheck] = useState(false);
 
 
     const Forgotpassword = () => {
-        axios.post(`${baseUrl.baseUrl}/auth/resetpassword`, {email}
+        axios.post(`${baseUrl.baseUrl}/auth/resetpassword`, { email }
         ).then((response) => {
-            setMsg(response.data)
+            setMsg(response.data);
+            setTimeout(() => {
+                setCheck(true)
+            }, 2000)
         }).catch((err) => {
             console.log(err)
+            setMsg(err)
         })
     }
 
@@ -25,15 +30,18 @@ function Forgotpassword() {
                 <h1 className='font-bold text-2xl'> Forgort Password</h1>
 
                 <div className='mt-8'>
-                    <input type="email" placeholder='input your email' className='py-4  border mx-4 px-2' onChange={(event) => {setEMail(event.target.value)}}></input>
+                    <input type="email" placeholder='input your email' className='py-4  border mx-4 px-2' onChange={(event) => { setEMail(event.target.value) }}></input>
                     <button type='submit' className='bg-yellow-600 text-white font-bold px-4 py-3' onClick={Forgotpassword}>SUBMIT</button>
                 </div>
 
-                <div className='border border-red-500 bg-slate-50 px-5 py-6'>
-                    {msg}
-                </div>
+                {
+                    check && (<div className='border border-red-500 bg-slate-50 px-5 py-6'>
+                        {msg}
+                    </div>)
+                }
 
-                
+
+
             </div>
 
         </>

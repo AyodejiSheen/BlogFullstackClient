@@ -133,7 +133,7 @@ export const Homepage = () => {
                     {/* to be able to to change the like button whether is been like all unlike (you check the the id of the post rendered is inside the likedpost array) */}
                     {/* .includes is a javascript function to check if something is inside an array * (if post.id is inside the array the text change to red , else its white) */}
                     <button onClick={() => likePost(post.id)} className={likedPost.includes(post.id) ? 'px-3 py-2 rounded-md shadow-sm text-sm bg-black text-red-600' : 'px-3 py-2 rounded-md shadow-sm text-sm bg-black text-slate-100'}>
-                      Like
+                    <i class="fa-solid fa-heart"></i>
                     </button>
                     <label>{post.Likes.length}</label>
                   </div>
