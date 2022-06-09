@@ -16,7 +16,7 @@ function Resetpassword() {
 
 
     useEffect(() => {
-        axios.get(`${baseUrl}/auth/reset-password/${id}/${token}`).then((response) => {
+        axios.get(`${baseUrl.baseUrl}/auth/reset-password/${id}/${token}`).then((response) => {
 
             if (response.data.error) {
                 alert(response.data.error);
@@ -29,7 +29,7 @@ function Resetpassword() {
 
     const resetpassword = () => {
         console.log(newPassword);
-        axios.put(`${baseUrl}/auth/reset-password`, { newPassword, id },).then((response) => {
+        axios.put(`${baseUrl.baseUrl}/auth/reset-password`, { newPassword, id },).then((response) => {
             console.log(response.data)
             navigate('/login')
         })

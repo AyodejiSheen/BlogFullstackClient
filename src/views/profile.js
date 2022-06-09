@@ -20,7 +20,7 @@ export const ProfilePage = () => {
             navigate('/')
 
         } else {
-            axios.get(`${baseUrl}/auth/profile/${username}`,
+            axios.get(`${baseUrl.baseUrl}/auth/profile/${username}`,
                 { headers: { accessToken: localStorage.getItem("JWT") } }
             ).then((response) => {
                 setUserProfile(response.data)
@@ -29,7 +29,9 @@ export const ProfilePage = () => {
             });
 
 
-            axios.get(`${baseUrl}/posts/profile/${username}`,
+
+            //to get all the post the user has made
+            axios.get(`${baseUrl.baseUrl}/posts/profile/${username}`,
                 { headers: { accessToken: localStorage.getItem("JWT") } }
             ).then((response) => {
                 setUserPost(response.data)

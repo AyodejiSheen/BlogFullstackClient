@@ -41,7 +41,7 @@ export const Register = () => {
             alert("password doesn't match")
         } else {
             //handling post request with axios, to submit the data  from the form to the database  the  api **** your pass data (i.e details from the form) as the second arguement which is the req.body in backend api
-            axios.post(`${baseUrl}/auth`, data).then((response) => {
+            axios.post(`${baseUrl.baseUrl}/auth`, data).then((response) => {
                 console.log(response.data)  // just to check if it works
 
                 if(response.data.error){

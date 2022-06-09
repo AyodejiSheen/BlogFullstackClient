@@ -26,7 +26,7 @@ export const Login = () => {
             password: password
         }
         //handling post request with axios, to submit the data  from the form to the database  the  api **** your pass data (i.e details from the form) as the second arguement which is the req.body in backend api
-        axios.post(`${baseUrl}/auth/login`, data).then((response) => {
+        axios.post(`${baseUrl.baseUrl}/auth/login`, data).then((response) => {
 
             //if there is an error in login from response {i.e if there is a value for error sent from backend response}, then alert the error
             if (response.data.error) {

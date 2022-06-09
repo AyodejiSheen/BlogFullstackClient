@@ -12,7 +12,7 @@ function Changepassword() {
 
 
     const Changepassword = () => {
-        axios.put(`${baseUrl}/auth/changepassword`, {oldPassword, newPassword},
+        axios.put(`${baseUrl.baseUrl}/auth/changepassword`, {oldPassword, newPassword},
             {headers:{ accessToken: localStorage.getItem("JWT") } }
         ).then((response) => {
             if(response.data.error){

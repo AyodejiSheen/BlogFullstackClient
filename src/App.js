@@ -33,7 +33,7 @@ function App() {
     // console.log("am running")
     let token = localStorage.getItem('JWT')
     // console.log(token);
-    axios.get(`${baseurl}/auth/auth`, {
+    axios.get(`${baseurl.baseUrl}/auth/auth`, {
       headers: {
         accessToken: token,
       },

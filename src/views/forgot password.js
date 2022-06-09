@@ -10,7 +10,7 @@ function Forgotpassword() {
 
 
     const Forgotpassword = () => {
-        axios.post(`${baseUrl}/auth/resetpassword`, {email}
+        axios.post(`${baseUrl.baseUrl}/auth/resetpassword`, {email}
         ).then((response) => {
             setMsg(response.data)
         }).catch((err) => {

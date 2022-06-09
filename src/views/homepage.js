@@ -26,7 +26,7 @@ export const Homepage = () => {
 
     if (authState) { //if not logged in, so that users that are not logged in can view the posts
       //handling get request with axios, to collect or the data sends from the database through the backend api
-      axios.get(`${baseUrl}/posts`,
+      axios.get(`${baseUrl.baseUrl}/posts`,
 
         { headers: { accessToken: localStorage.getItem("JWT") } }).then((response) => {
           setPostList(response.data.postList)  //to get the actual data for the post List
@@ -40,7 +40,7 @@ export const Homepage = () => {
     } else {
 
       //handling get request with axios, to collect or the data sends from the database through the backend api
-      axios.get(`${baseUrl}/posts/notlogged`).then((response) => {
+      axios.get(`${baseUrl.baseUrl}/posts/notlogged`).then((response) => {
         setPostList(response.data)  //to get the actual data for the post List
         // console.log(response.data);
         // console.log(postList);
@@ -65,7 +65,7 @@ export const Homepage = () => {
 
     if (authState) { //if authState is true (its logged in, so that non-user cant like)
 
-      axios.post(`${baseUrl}/likes`, { PostId: postId },
+      axios.post(`${baseUrl.baseUrl}/likes`, { PostId: postId },
         { headers: { accessToken: localStorage.getItem("JWT") } }
       ).then((response) => {
 

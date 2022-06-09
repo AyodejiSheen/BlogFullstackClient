@@ -26,16 +26,18 @@ export const Post = () => {
     useEffect(() => {
         //  the post id from the useparams to backend , (with the rout api that collects the id) 
         //to fetch the post details.
-        axios.get(`${baseUrl}/posts/postId/${pId}`).then((response) => {
+        axios.get(`${baseUrl.baseUrl}/posts/postId/${pId}`).then((response) => {
             setpostDetails(response.data) //to the get post with the id sent from backend
         }).catch((err) => {
             console.log(err);
         })
 
 
+
+
         //  the post id from the useparams to backend , (with the rout api that collects the id) 
         //to fetch the comments for the post.
-        axios.get(`${baseUrl}/comments/${pId}`).then((response) => {
+        axios.get(`${baseUrl.baseUrl}/comments/${pId}`).then((response) => {
             setcommentDetails(response.data) //to the get post with the id sent from backend
         }).catch((err) => {
             console.log(err);
@@ -56,7 +58,7 @@ export const Post = () => {
 
         //to submit the comment form to the database and add comments
         //passing the details to the database just as ordinary object
-        axios.post(`${baseUrl}/comments`, { commentBody: newComment, PostId: pId }, //body
+        axios.post(`${baseUrl.baseUrl}/comments`, { commentBody: newComment, PostId: pId }, //body
             { headers: { accessToken: localStorage.getItem("JWT") } } //to send the JWT to the backend has a header
 
         ).then((response) => {
@@ -77,7 +79,7 @@ export const Post = () => {
 
     //to delete comments
     const deleteComment = (id) => {
-        axios.delete(`${baseUrl}/comments/${id}`,
+        axios.delete(`${baseUrl.baseUrl}/comments/${id}`,
             {
                 headers: {
                     accessToken: localStorage.getItem("JWT")
@@ -92,7 +94,7 @@ export const Post = () => {
 
     //to delete post
     const deletePost = (id) => {
-        axios.delete(`${baseUrl}/posts/${id}`,
+        axios.delete(`${baseUrl.baseUrl}/posts/${id}`,
             { headers: { accessToken: localStorage.getItem("JWT") } }
         ).then((response) => {
             navigate("/")
@@ -105,7 +107,7 @@ export const Post = () => {
         if (option === "title") {
             let newTitle = prompt("Enter new title");   //enter new title is the label of the input
             
-            axios.put(`${baseUrl}/posts/title`, 
+            axios.put(`${baseUrl.baseUrl}/posts/title`, 
             {
                 newTitle : newTitle,
                 id : pId //pId from the useParams 
@@ -127,7 +129,7 @@ export const Post = () => {
         } else {
             let newPostbody = prompt("Enter new post body");
 
-            axios.put(`${baseUrl}/posts/postbody`, 
+            axios.put(`${baseUrl.baseUrl}/posts/postbody`, 
             {
                 newpostBody : newPostbody,
                 id : pId //pId from the useParams 
