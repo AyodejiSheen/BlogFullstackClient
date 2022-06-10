@@ -161,7 +161,7 @@ export const Homepage = () => {
         {/* to displaying 5 post skeletons */}
         {!postList && (
           <>
-            <div className='px-8'>
+            <div className='md:flex flex-wrap justify-center gap-16'>
               {[1,2,3,4,5].map((n) => <PostSkeleton key={n} theme="dark"/>)}
             </div>
           </>

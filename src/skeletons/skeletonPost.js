@@ -11,7 +11,7 @@ export const PostSkeleton = (props) => {
 
     return(
         <>
-            <div className={`skeleton-wrapper ${themeClass}`}>
+            <div className={`skeleton-wrapper ${themeClass} w-80`}>
                 <div className="skeleton-post">
                     <SkeltonElement type={"title"}/>
                     <SkeltonElement type={"text"}/>
