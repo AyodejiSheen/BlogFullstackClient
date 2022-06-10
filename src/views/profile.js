@@ -67,8 +67,8 @@ export const ProfilePage = () => {
 
     return (
         <>
-            <div className='flex flex-wrap space-y-6'>
-                <div className='flex-1'>
+            <div className='md:flex flex-wrap space-y-6'>
+                <div className='md:w-1/2'>
                     <p className='mx-6 font-bold text-2xl'>Profiles Pages</p>
                     {userProfile && (<div className='mx-6'>
                         <p>{userProfile.firstname}</p>
@@ -81,17 +81,14 @@ export const ProfilePage = () => {
                     }
 
                     {/* to display users skeleton */}
-                    {!userProfile && ( <div className='mx-6'><UserSkeleton theme="light"/></div>)}
-
-
-
+                    {!userProfile && ( <div className='mx-6 md:w-1/2'><UserSkeleton theme="light"/></div>)}
                 </div>
 
 
 
                 {/* user posts */}
 
-                <div className='flex-1 space-y-4'>
+                <div className='md:w-1/2 space-y-4'>
                     <p className='mx-6 font-bold text-2xl'>Posts of the User</p>
                     {
                         userPost.map((each, index) => {

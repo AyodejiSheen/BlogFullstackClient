@@ -1,5 +1,6 @@
 import React from "react";
 import { SkeltonElement } from "./baseElement";
+import { Shimmer } from "./shimmer";
 
 
 export const UserSkeleton = (props) => {
@@ -22,6 +23,7 @@ export const UserSkeleton = (props) => {
                             <SkeltonElement type={"text"}/>
                         </div>
                 </div>
+                <Shimmer/>
             </div>
         
         </>

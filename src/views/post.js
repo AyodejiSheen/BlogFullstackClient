@@ -23,6 +23,17 @@ export const Post = () => {
     let { user } = useContext(AuthContext);
 
 
+
+    //for dropdown options
+    const [drop, setDrop] = useState("drops");
+
+    const handledrop = (e) => {
+        setDrop(e);
+    };
+
+
+
+
     useEffect(() => {
         //  the post id from the useparams to backend , (with the rout api that collects the id) 
         //to fetch the post details.
@@ -105,85 +116,145 @@ export const Post = () => {
     //to edit a post (either the title or the post body)
     const editPost = (option) => {
         if (option === "title") {
-            let newTitle = prompt("Enter new title");   //enter new title is the label of the input
-            
-            axios.put(`${baseUrl.baseUrl}/posts/title`, 
-            {
-                newTitle : newTitle,
-                id : pId //pId from the useParams 
-            },
 
-            {
-                headers : { accessToken: localStorage.getItem("JWT") }
+            let newTitle = prompt("Enter new title");   //enter new title is the label of the input
+
+            if (newTitle === "") {
+                alert("Post title cannot be empty")
+            } else {
+                axios.put(`${baseUrl.baseUrl}/posts/title`,
+                    {
+                        newTitle: newTitle,
+                        id: pId //pId from the useParams 
+                    },
+
+                    {
+                        headers: { accessToken: localStorage.getItem("JWT") }
+                    }
+
+                ).then((response) => {
+                    console.log(response)
+                }).catch((err) => {
+                    console.log(err)
+                })
+
+                //to update the post in the frontend instantly
+                setpostDetails({ ...postDetails, title: newTitle });
             }
 
-            ).then((response) => {
-                console.log(response)
-            }).catch((err) => {
-                console.log(err)
-            })
-
-            //to update the post in the frontend instantly
-            setpostDetails({...postDetails, title:newTitle});
 
         } else {
+
             let newPostbody = prompt("Enter new post body");
 
-            axios.put(`${baseUrl.baseUrl}/posts/postbody`, 
-            {
-                newpostBody : newPostbody,
-                id : pId //pId from the useParams 
-            },
+            if (newPostbody === "") {
+                alert("Post Body cannot be empty")
+            } else {
+                axios.put(`${baseUrl.baseUrl}/posts/postbody`,
+                    {
+                        newpostBody: newPostbody,
+                        id: pId //pId from the useParams 
+                    },
 
-            {
-                headers : { accessToken: localStorage.getItem("JWT") }
+                    {
+                        headers: { accessToken: localStorage.getItem("JWT") }
+                    }
+
+                ).then((response) => {
+                    console.log(response)
+                }).catch((err) => {
+                    console.log(err)
+                })
+
+                //to update the post in the frontend instantly
+                setpostDetails({ ...postDetails, postBody: newPostbody });
             }
 
-            ).then((response) => {
-                console.log(response)
-            }).catch((err) => {
-                console.log(err)
-            })
 
-            //to update the post in the frontend instantly
-            setpostDetails({...postDetails, postBody:newPostbody});
         }
     }
 
 
 
 
+
+
     return (
         <>
-            <div className="md:flex flex-wrap">
-                <div className="px-24 flex-1 ">
+            <div className="xl:flex flex-wrap space-y-8 xl:space-y-0">
+                <div className="xl:w-3/5 px-5 xl:px-20">
                     {/* to enable the edit button only for the user that create the post when they login */}
-                    <h2 className="text-2xl bg-yellow-600 font-bold text-white text-center py-4"
-                        onClick={() => {
-                            if (user.username === postDetails.username) {
-                                editPost("title")
-                            }
-                        }
-                        }>{postDetails.title}</h2>
+                    <div className=" justify-between flex flex-wrap px-5 text-2xl bg-yellow-600 font-bold text-white text-center py-4 relative">
+
+                        <div>{postDetails.title}</div>
+                        <div>
+                            {user.username === postDetails.username && (
+                                <button className="mr-3 text-xl  md:mr-0 space-x-4 items-center focus:outline-none dark:focus:ring-gray-600" onClick={() => handledrop("drop1")}>
+                                    <i className="fa-solid fa-ellipsis rotate-90"></i>
+                                </button>
+                            )}
+
+                            <div
+                                hidden={drop !== "drop1"}
+                                className=" absolute right-0 md:top-0 z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                            >
+                                <div className="md:py-3 md:px-4">
+                                    <ul className="py-1" aria-labelledby="dropdown">
+                                        <li>
+                                            <button
+                                                onClick={handledrop}
+                                                className="w-full text-left block py-2 px-4 text-xs md:text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                            >
+                                                <i className="fa-solid fa-xmark mr-3 "></i> Dismiss
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button className="block py-2 px-4  text-xs md:text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                onClick={() => {
+                                                    if (user.username === postDetails.username) {
+                                                        editPost("title")
+                                                    }
+                                                }
+                                                }>
+                                                <i class="fa-solid fa-pen-to-square mr-3"></i> Edit Post Title
+                                            </button>
+                                        </li>
+
+                                        <li>
+                                            {/* to enable the edit button only for the user that create the post when they login */}
+                                            <button className="block py-2 px-4  text-xs md:text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                onClick={() => {
+                                                    if (user.username === postDetails.username) {
+                                                        editPost("body")
+                                                    }
+                                                }
+                                                }>
+                                                <i class="fa-solid fa-pen-to-square mr-3"></i> Edit Post body
+                                            </button>
+                                        </li>
+
+                                        <li>
+                                            <button
+                                                className="block py-2 px-4  text-xs md:text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                onClick={() => deletePost(postDetails.id)} >
+                                                <i class="fa-solid fa-trash-can mr-3"></i>Delete Post
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
                     <div className="p-12">
-                        {/* to enable the edit button only for the user that create the post when they login */}
-                        <p onClick={() => { if (user.username === postDetails.username) { editPost("body") } }}>{postDetails.postBody}</p>
+                        <p>{postDetails.postBody}</p>
                     </div>
                     <div className="py-4 bg-slate-50">
                         <div className="flex flex-wrap justify-between items-center">
                             <div className="w-3/4">
-                                <p className="text-gray-400"> This post was created by <span className="text-black ">{postDetails.username} <i className="text-gray-400">({postDetails.createdAt})</i></span>  </p>
+                                <p className="text-gray-400"> This post was created by <span className="text-black ">{postDetails.username} <i className="text-gray-400 font-mono">({postDetails.createdAt})</i></span>  </p>
                             </div>
-
-                            {user.username === postDetails.username && (
-                                <>
-                                    <div className="w-1/4">
-                                        <button className="bg-red-600 text-white py-4 px-5 rounded-md" onClick={() => deletePost(postDetails.id)}>Delete Post</button>
-                                    </div>
-                                </>
-                            )}
                         </div>
                     </div>
                 </div>
@@ -195,36 +266,68 @@ export const Post = () => {
 
                 {/* comment section */}
 
-                <div className=" px-24 flex-1">
+                <div className="xl:w-2/5 px-5 xl:px-10">
                     {/* creating comments */}
                     <div>
-                        <input type="text" className="w-full h-12 px-3 py-2 my-1 rounded-lg border-0 shadow-sm focus:outline-none focus:border-indigo-700 bg-slate-100 text-base" value={newComment} placeholder="input title" onChange={(e) => setnewComment(e.target.value)} />
+                        <textarea rows="4" className="w-full px-3 py-2 my-1 rounded-lg border-0 shadow-sm focus:outline-none focus:border-indigo-700 bg-slate-100 text-base" value={newComment} placeholder="Enter your comment" onChange={(e) => setnewComment(e.target.value)} />
+
                         <button type="submit" className="w-full px-3 py-4 bg-yellow-700 text-white font-medium mt-6 rounded-lg" onClick={addComment}>submit</button>
                     </div>
 
 
                     {/* listing comments */}
                     <div>
-                        <p className="text-2xl my-5">All comments</p>
+                        <p className="text-2xl my-5 font-medium">All comments</p>
+
                         {
                             commentDetails.slice(0).reverse().map((comment, index) => {
                                 return (
-                                    <div className="flex flex-wrap gap-6 items-center">
 
-                                        <div key={index} id={index} className='shadow-lg w-10/12 mt-5 text-center'>
-                                            <div className="font-bold p-5 bg-black text-white rounded-t-lg"> @ {comment.username} : {comment.commentBody} </div>
-                                            <p className='bg-yellow-600 p-5 rounded-b-lg'> {comment.createdAt} </p>
+                                    <div key={index} id={index} className='w-full mt-8'>
+                                        <div className="bg-gray-700 flex flex-wrap justify-between items-center px-6 text-white py-3 relative">
+                                            <div><i class="fa-solid fa-circle-user mr-3 text-2xl"></i> {comment.username}</div>
+                                            <div>
+                                                {user.username === postDetails.username && (
+                                                    <button className="mr-3 text-xl  md:mr-0 space-x-4 items-center focus:outline-none dark:focus:ring-gray-600" onClick={() => handledrop(comment.id)}>
+                                                        <i className="fa-solid fa-ellipsis rotate-90"></i>
+                                                    </button>
+                                                )}
+
+                                                <div
+                                                    hidden={drop !== comment.id}
+                                                    className=" absolute right-0 md:top-0 z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                                                >
+                                                    <div className="md:py-3 md:px-4">
+                                                        <ul className="py-1" aria-labelledby="dropdown">
+                                                            <li>
+                                                                <button
+                                                                    onClick={handledrop}
+                                                                    className="block  w-full text-left py-2 px-4 text-xs md:text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                                >
+                                                                    <i className="fa-solid fa-xmark mr-3 "></i> Dismiss
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                {/* to show the delete button only for the user that makes the comment (i.e when the user logged in) */ }
+                                                                <button
+                                                                    className="block py-2 px-4  text-xs md:text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                                                    onClick={() => deleteComment(comment.id)} >
+                                                                    <i class="fa-solid fa-trash-can mr-3"></i>Delete Comment
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        {/* to show the delete button only for the user that makes the comment (i.e when the user logged in) */}
-                                        {user.username === comment.username && (
-                                            <div className="w-5/8">
-                                                <button className="bg-red-500 px-8 py-4 rounded-lg font-medium text-white hover:shadow-lg" onClick={() => deleteComment(comment.id)}>X</button>
-                                            </div>
-                                        )}
+                                        <div className=" px-8 py-5">  {comment.commentBody} </div>
+                                        <p className='bg-yellow-600 p-2 text-right text-slate-300 font-mono'> {comment.createdAt} </p>
                                     </div>
+
+
                                 )
-                            })
+                        })
                         }
                     </div>
                 </div>

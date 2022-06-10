@@ -41,7 +41,7 @@ export const Homepage = () => {
               // console.log(likedPost);
               // console.log(postList);
               // setLoader(true); //to switch skeleton loader
-            }, 3000)
+            }, 2000)
         });
 
     } else {
@@ -54,7 +54,7 @@ export const Homepage = () => {
           // setLoader(true); //to switch skeleton loader
           // console.log(response.data);
           // console.log(postList);
-        }, 3000)
+        }, 2000)
       });
 
     }
@@ -125,18 +125,18 @@ export const Homepage = () => {
 
   return (
     <>
-      <div className='md:flex flex-wrap justify-center gap-16'>
+      <div className='justify-center space-y-16 mx-8'>
 
         {
           postList && postList.slice(0).reverse().map((post, index) => {
             return (
-              <div key={post.id} id={index} className='shadow-lg w-80 mx-auto mt-5 text-center'>
+              <div key={post.id} id={index} className='shadow-lg lg:w-3/4 2xl:w-5/8 mx-auto mt-5 text-center'>
                 <div className="font-bold p-5 bg-black text-white rounded-t-lg"> {post.title} </div>
                 <div onClick={() => routPost(post.id)} className='p-24 cursor-pointer'> {post.postBody} </div>
                 <div className='flex flex-wrap items-center justify-between bg-yellow-600 p-5 rounded-b-lg'>
                   <div className="">
                     <Link to={`profile/${post.username}`}>
-                      <button>{post.username}</button>
+                      <button>@{post.username}</button>
                     </Link>
                   </div>
 
@@ -161,8 +161,8 @@ export const Homepage = () => {
         {/* to displaying 5 post skeletons */}
         {!postList && (
           <>
-            <div className='md:flex flex-wrap justify-center gap-16'>
-              {[1,2,3,4,5].map((n) => <PostSkeleton key={n} theme="dark"/>)}
+            <div className='space-y-16 justify-center  lg:w-3/4 2xl:w-5/8 mx-auto mt-5 '>
+              {[1,2,3,4,5].map((n) => <PostSkeleton key={n} theme="light"/>)}
             </div>
           </>
         )}
