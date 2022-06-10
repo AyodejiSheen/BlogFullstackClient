@@ -4,6 +4,8 @@ import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import baseUrl from '../baseUrl';
+import { SkeltonElement } from '../skeletons/baseElement';
+import { PostSkeleton } from '../skeletons/skeletonPost';
 
 
 
@@ -14,9 +16,10 @@ export const Homepage = () => {
 
 
   //LOGICS START*******
-  const [postList, setPostList] = useState([]);
+  const [postList, setPostList] = useState(null);
   const navigate = useNavigate();
-  const [likedPost, setLikedPost] = useState([])
+  const [likedPost, setLikedPost] = useState([]);
+  const [loader, setLoader] = useState(null);
 
   const { authState } = useContext(AuthContext);  //to be able to set the value for AuthState  from the function setAuthState using the useContext passing Authcontext
 
@@ -29,21 +32,29 @@ export const Homepage = () => {
       axios.get(`${baseUrl.baseUrl}/posts`,
 
         { headers: { accessToken: localStorage.getItem("JWT") } }).then((response) => {
-          setPostList(response.data.postList)  //to get the actual data for the post List
-          setLikedPost(response.data.likedPost.map((likes) => {
-            return (likes.PostId);
-          })) //to get just the postId inside the response.data.likedpost sent from backend into an array
-          // console.log(likedPost);
-          // console.log(postList);
+
+            setTimeout(() => {              
+              setPostList(response.data.postList)  //to get the actual data for the post List
+              setLikedPost(response.data.likedPost.map((likes) => {
+                return (likes.PostId);
+              })) //to get just the postId inside the response.data.likedpost sent from backend into an array
+              // console.log(likedPost);
+              // console.log(postList);
+              // setLoader(true); //to switch skeleton loader
+            }, 3000)
         });
 
     } else {
 
       //handling get request with axios, to collect or the data sends from the database through the backend api
       axios.get(`${baseUrl.baseUrl}/posts/notlogged`).then((response) => {
-        setPostList(response.data)  //to get the actual data for the post List
-        // console.log(response.data);
-        // console.log(postList);
+
+        setTimeout(() => {
+          setPostList(response.data)  //to get the actual data for the post List
+          // setLoader(true); //to switch skeleton loader
+          // console.log(response.data);
+          // console.log(postList);
+        }, 3000)
       });
 
     }
@@ -117,9 +128,9 @@ export const Homepage = () => {
       <div className='md:flex flex-wrap justify-center gap-16'>
 
         {
-          postList.slice(0).reverse().map((post, index) => {
+          postList && postList.slice(0).reverse().map((post, index) => {
             return (
-              <div key={index} id={index} className='shadow-lg w-80 mx-auto mt-5 text-center'>
+              <div key={post.id} id={index} className='shadow-lg w-80 mx-auto mt-5 text-center'>
                 <div className="font-bold p-5 bg-black text-white rounded-t-lg"> {post.title} </div>
                 <div onClick={() => routPost(post.id)} className='p-24 cursor-pointer'> {post.postBody} </div>
                 <div className='flex flex-wrap items-center justify-between bg-yellow-600 p-5 rounded-b-lg'>
@@ -133,7 +144,7 @@ export const Homepage = () => {
                     {/* to be able to to change the like button whether is been like all unlike (you check the the id of the post rendered is inside the likedpost array) */}
                     {/* .includes is a javascript function to check if something is inside an array * (if post.id is inside the array the text change to red , else its white) */}
                     <button onClick={() => likePost(post.id)} className={likedPost.includes(post.id) ? 'px-3 py-2 rounded-md shadow-sm text-sm bg-black text-red-600' : 'px-3 py-2 rounded-md shadow-sm text-sm bg-black text-slate-100'}>
-                    <i class="fa-solid fa-heart"></i>
+                    <i className="fa-solid fa-heart"></i>
                     </button>
                     <label>{post.Likes.length}</label>
                   </div>
@@ -144,6 +155,17 @@ export const Homepage = () => {
             )
           })
         }
+
+
+        {/* //to show skeleton loader when fetching the data from database /backend */}
+        {/* to displaying 5 post skeletons */}
+        {!postList && (
+          <>
+            <div className='px-8'>
+              {[1,2,3,4,5].map((n) => <PostSkeleton key={n} theme="dark"/>)}
+            </div>
+          </>
+        )}
 
       </div>
 

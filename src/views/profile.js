@@ -3,13 +3,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import baseUrl from '../baseUrl';
+import { UserSkeleton } from '../skeletons/skeletonUser';
 
 
 
 export const ProfilePage = () => {
 
     let { username } = useParams();
-    const [userProfile, setUserProfile] = useState({});
+    const [userProfile, setUserProfile] = useState(null);
     const [userPost, setUserPost] = useState([]);
 
 
@@ -23,7 +24,11 @@ export const ProfilePage = () => {
             axios.get(`${baseUrl.baseUrl}/auth/profile/${username}`,
                 { headers: { accessToken: localStorage.getItem("JWT") } }
             ).then((response) => {
-                setUserProfile(response.data)
+
+                setTimeout(() => {
+                    setUserProfile(response.data)
+                }, 3000)
+
             }).catch((err) => {
                 console.log(err)
             });
@@ -48,11 +53,11 @@ export const ProfilePage = () => {
     let { user, authState } = useContext(AuthContext);
 
 
-  // to navigate to each post
-  const routPost = (idg) => {
-    navigate(`/post/${idg}`)
-    // console.log(idg)
-  }
+    // to navigate to each post
+    const routPost = (idg) => {
+        navigate(`/post/${idg}`)
+        // console.log(idg)
+    }
 
 
 
@@ -62,30 +67,38 @@ export const ProfilePage = () => {
 
     return (
         <>
-            <div className='flex flex-wrap'>
+            <div className='flex flex-wrap space-y-6'>
                 <div className='flex-1'>
-                    <p>Profiles Pages</p>
+                    <p className='mx-6 font-bold text-2xl'>Profiles Pages</p>
+                    {userProfile && (<div className='mx-6'>
+                        <p>{userProfile.firstname}</p>
+                        <p>{userProfile.lastname}</p>
+                        <p>{userProfile.email}</p>
+                        <p>{userProfile.username}</p>
+                        {user.username === userProfile.username && (<button className='bg-slate-200 px-4 py-3' onClick={() => navigate("/changepassword")}>Change Password</button>)}
+                    </div>
+                    )
+                    }
 
-                    <p>{userProfile.firstname}</p>
-                    <p>{userProfile.lastname}</p>
-                    <p>{userProfile.email}</p>
-                    <p>{userProfile.username}</p>
-                    { user.username === userProfile.username && (<button className='bg-slate-200 px-4 py-3' onClick={() => navigate("/changepassword")}>Change Password</button>)}
-                    
+                    {/* to display users skeleton */}
+                    {!userProfile && ( <div className='mx-6'><UserSkeleton theme="light"/></div>)}
+
+
+
                 </div>
 
-                <div className='flex-1'>
-                    <p>Posts of the User</p>
+
+
+                {/* user posts */}
+
+                <div className='flex-1 space-y-4'>
+                    <p className='mx-6 font-bold text-2xl'>Posts of the User</p>
                     {
                         userPost.map((each, index) => {
                             return (
                                 <>
 
-                                    <div className="px-24 flex-1 ">
-                                        <button className='px-3 py-2 rounded-md bg-black text-white'>
-                                            Like
-                                        </button>
-                                        <label>{each.Likes.length}</label>
+                                    <div key={each.id} className=" mx-6 flex-1 shadow-sm">
                                         <h2 className="text-2xl bg-yellow-600 font-bold text-white text-center py-4">{each.title}</h2>
                                         <div className="p-12 cursor-pointer" onClick={() => routPost(each.id)}>
                                             <p>{each.postBody}</p>
