@@ -19,7 +19,8 @@ export const Homepage = () => {
   const [postList, setPostList] = useState(null);
   const navigate = useNavigate();
   const [likedPost, setLikedPost] = useState([]);
-  const [loader, setLoader] = useState(null);
+
+  const [liking, setLiking] = useState(null)
 
   const { authState } = useContext(AuthContext);  //to be able to set the value for AuthState  from the function setAuthState using the useContext passing Authcontext
 
@@ -27,39 +28,47 @@ export const Homepage = () => {
 
   useEffect(() => {
 
-    if (authState) { //if not logged in, so that users that are not logged in can view the posts
-      //handling get request with axios, to collect or the data sends from the database through the backend api
-      axios.get(`${baseUrl.baseUrl}/posts`,
+    const getPosts = async () => {
+      if (authState) { //if not logged in, so that users that are not logged in can view the posts
+        //handling get request with axios, to collect or the data sends from the database through the backend api
+        await axios.get(`${baseUrl.baseUrl}/posts`,
 
-        { headers: { accessToken: localStorage.getItem("JWT") } }).then((response) => {
+          { headers: { accessToken: localStorage.getItem("JWT") } }).then((response) => {
 
-            setTimeout(() => {              
-              setPostList(response.data.postList)  //to get the actual data for the post List
+            setTimeout(() => {
+              setPostList(response.data.postList);  //to get the actual data for the post List
               setLikedPost(response.data.likedPost.map((likes) => {
+                console.log("welocme home");
                 return (likes.PostId);
               })) //to get just the postId inside the response.data.likedpost sent from backend into an array
               // console.log(likedPost);
               // console.log(postList);
               // setLoader(true); //to switch skeleton loader
+
             }, 2000)
+          });
+
+      } else {
+
+        //handling get request with axios, to collect or the data sends from the database through the backend api
+        await axios.get(`${baseUrl.baseUrl}/posts/notlogged`).then((response) => {
+
+          setTimeout(() => {
+            setPostList(response.data)  //to get the actual data for the post List
+            // setLoader(true); //to switch skeleton loader
+            // console.log(response.data);
+            // console.log(postList);
+          }, 2000)
         });
 
-    } else {
-
-      //handling get request with axios, to collect or the data sends from the database through the backend api
-      axios.get(`${baseUrl.baseUrl}/posts/notlogged`).then((response) => {
-
-        setTimeout(() => {
-          setPostList(response.data)  //to get the actual data for the post List
-          // setLoader(true); //to switch skeleton loader
-          // console.log(response.data);
-          // console.log(postList);
-        }, 2000)
-      });
-
+      }
     }
 
+
+    getPosts();
+
   }, [])
+
 
 
 
@@ -143,8 +152,9 @@ export const Homepage = () => {
                   <div className='space-x-4'>
                     {/* to be able to to change the like button whether is been like all unlike (you check the the id of the post rendered is inside the likedpost array) */}
                     {/* .includes is a javascript function to check if something is inside an array * (if post.id is inside the array the text change to red , else its white) */}
+
                     <button onClick={() => likePost(post.id)} className={likedPost.includes(post.id) ? 'px-3 py-2 rounded-md shadow-sm text-sm bg-black text-red-600' : 'px-3 py-2 rounded-md shadow-sm text-sm bg-black text-slate-100'}>
-                    <i className="fa-solid fa-heart"></i>
+                      <i className="fa-solid fa-heart"></i>
                     </button>
                     <label>{post.Likes.length}</label>
                   </div>
@@ -162,7 +172,7 @@ export const Homepage = () => {
         {!postList && (
           <>
             <div className='space-y-16 justify-center  lg:w-3/4 2xl:w-5/8 mx-auto mt-5 '>
-              {[1,2,3,4,5].map((n) => <PostSkeleton key={n} theme="light"/>)}
+              {[1, 2, 3, 4, 5].map((n) => <PostSkeleton key={n} theme="light" />)}
             </div>
           </>
         )}

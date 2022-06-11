@@ -39,11 +39,10 @@ export const Post = () => {
         //to fetch the post details.
         axios.get(`${baseUrl.baseUrl}/posts/postId/${pId}`).then((response) => {
             setpostDetails(response.data) //to the get post with the id sent from backend
+            console.log("welcome")
         }).catch((err) => {
             console.log(err);
         })
-
-
 
 
         //  the post id from the useparams to backend , (with the rout api that collects the id) 
@@ -287,7 +286,7 @@ export const Post = () => {
                                         <div className="bg-gray-700 flex flex-wrap justify-between items-center px-6 text-white py-3 relative">
                                             <div><i class="fa-solid fa-circle-user mr-3 text-2xl"></i> {comment.username}</div>
                                             <div>
-                                                {user.username === postDetails.username && (
+                                                {user.username === comment.username && (
                                                     <button className="mr-3 text-xl  md:mr-0 space-x-4 items-center focus:outline-none dark:focus:ring-gray-600" onClick={() => handledrop(comment.id)}>
                                                         <i className="fa-solid fa-ellipsis rotate-90"></i>
                                                     </button>
