@@ -71,7 +71,7 @@ export const CreatePost = () => {
 
                     <div>
                         <label>Post Body</label><br></br>
-                        <Field type="text" className="w-full h-12 px-3 py-2 my-1 rounded-lg border-0 shadow-sm focus:outline-none focus:border-indigo-700 bg-slate-100 text-base" name="postBody" placeholder="input post body" />
+                        <Field type="text" as="textarea" rows="4" className="w-full px-3 py-2 my-1 rounded-lg border-0 shadow-sm focus:outline-none focus:border-indigo-700 bg-slate-100 text-base" name="postBody" placeholder="input post body" />
                         <ErrorMessage name="postBody" component="span" className="text-red-500"/> {/*to display the error message for the field*/}
                     </div>
                     <button type="submit" className="w-full px-3 py-4 bg-yellow-700 text-white font-medium mt-6 rounded-lg">Create Post</button>

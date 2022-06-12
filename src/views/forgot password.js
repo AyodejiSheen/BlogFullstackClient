@@ -26,16 +26,16 @@ function Forgotpassword() {
 
     return (
         <>
-            <div className='px-6'>
+            <div className='border shadow-md w-2/6 mx-auto text-center p-5'>
                 <h1 className='font-bold text-2xl'> Forgort Password</h1>
 
-                <div className='mt-8'>
-                    <input type="email" placeholder='input your email' className='py-4  border mx-4 px-2' onChange={(event) => { setEMail(event.target.value) }}></input>
+                <div className='mt-8 space-y-4'>
+                    <input type="email" placeholder='input your email' className='py-4 w-full border px-2' onChange={(event) => { setEMail(event.target.value) }}></input>
                     <button type='submit' className='bg-yellow-600 text-white font-bold px-4 py-3' onClick={Forgotpassword}>SUBMIT</button>
                 </div>
 
                 {
-                    check && (<div className='border border-red-500 bg-slate-50 px-5 py-6'>
+                    check && (<div className='border rounded-xl border-red-500 bg-slate-50 px-5 py-6 mt-5'>
                         {msg}
                     </div>)
                 }
