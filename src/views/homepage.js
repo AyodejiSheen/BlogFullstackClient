@@ -35,17 +35,21 @@ export const Homepage = () => {
 
           { headers: { accessToken: localStorage.getItem("JWT") } }).then((response) => {
 
-            setTimeout(() => {
-              setPostList(response.data.postList);  //to get the actual data for the post List
-              setLikedPost(response.data.likedPost.map((likes) => {
-                console.log("welocme home");
-                return (likes.PostId);
-              })) //to get just the postId inside the response.data.likedpost sent from backend into an array
-              // console.log(likedPost);
-              // console.log(postList);
-              // setLoader(true); //to switch skeleton loader
-
-            }, 2000)
+            if(response.data.error){
+              alert(response.data.error)
+            }else{
+              setTimeout(() => {
+                setPostList(response.data.postList);  //to get the actual data for the post List
+                setLikedPost(response.data.likedPost.map((likes) => {
+                  console.log("welocme home");
+                  return (likes.PostId);
+                })) //to get just the postId inside the response.data.likedpost sent from backend into an array
+                // console.log(likedPost);
+                // console.log(postList);
+                // setLoader(true); //to switch skeleton loader
+  
+              }, 2000)
+            }
           });
 
       } else {
@@ -134,7 +138,7 @@ export const Homepage = () => {
 
   return (
     <>
-      <div className='justify-center space-y-16 mx-8'>
+      <div className='justify-center space-y-16 mx-8 pb-8'>
 
         {
           postList && postList.slice(0).reverse().map((post, index) => {

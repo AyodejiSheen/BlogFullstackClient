@@ -38,7 +38,7 @@ function Resetpassword() {
 
     return (
         <>
-            <div className='border shadow-md w-2/6 mx-auto text-center p-5'>
+            <div className='border shadow-md md:w-2/6 mx-5 md:mx-auto text-center p-5'>
                 <h1 className='font-bold text-2xl'>Reset Password</h1>
 
                 <div className='mt-8'>
